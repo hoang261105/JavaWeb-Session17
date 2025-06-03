@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Thông tin cá nhân</h2>
+
+    <a th:href="@{'/profile/' + ${customerId}}">Thông tin cá nhân</a>
+    <a th:href="@{'/history/' + ${customerId}}">Lịch sử đặt hàng</a>
+
+    <form action="/change-profile" method="post" th:object="${customer}">
+        <div>
+            <label for="username">UserName</label>
+            <input type="text" id="username" placeholder="Nhập username" th:field="*{username}">
+            <br>
+            <p th:if="${#fields.hasErrors('username')}" th:errors="*{username}" style="color: red"></p>
+        </div>
+        <div>
+            <label for="email">Email</label>
+            <input type="text" id="email" placeholder="Nhập email" th:field="*{email}">
+            <br>
+            <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color: red"></p>
+        </div>
+        <div>
+            <label for="phone">Số điện thoại</label>
+            <input type="text" id="phone" placeholder="Nhập số điện thoại" th:field="*{phone}">
+            <br>
+            <p th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}" style="color: red"></p>
+        </div>
+        <br>
+        <button type="submit" onclick="return alert('Lưu thành công!')">Lưu thay đổi</button>
+    </form>
+</body>
+</html>

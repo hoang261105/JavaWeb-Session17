@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Thông tin thanh toán</h2>
+
+    <form action="/checkout" method="post" th:object="${order}">
+        <div>
+            <label for="recipientName">Tên người nhận</label>
+            <input type="text" id="recipientName" placeholder="Nhập tên người nhận" th:field="*{recipientName}">
+            <br>
+            <p th:if="${#fields.hasErrors('recipientName')}" th:errors="*{recipientName}" style="color: red"></p>
+        </div>
+        <div>
+            <label for="phone">Số điện thoại</label>
+            <input type="text" id="phone" placeholder="Nhập số điện thoại" th:field="*{phoneNumber}">
+            <br>
+            <p th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}" style="color: red"></p>
+        </div>
+        <div>
+            <label for="address">Địa chỉ</label>
+            <input type="text" id="address" placeholder="Nhập địa chỉ" th:field="*{address}">
+            <br>
+            <p th:if="${#fields.hasErrors('address')}" th:errors="*{address}" style="color: red"></p>
+        </div>
+        <br>
+        <button type="submit" onclick="return alert('Đặt hàng thành công!')">Xác nhận đơn hàng</button>
+    </form>
+
+    <table border="1" width="60%">
+        <thead>
+            <tr>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+                <th>Số lượng</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="cart : ${cartList}" style="text-align: center">
+                <td th:text="${cart.product.productName}"></td>
+                <td th:text="${cart.product.price}"></td>
+                <td th:text="${cart.quantity}"></td>
+                <td th:text="${cart.product.price * cart.quantity}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <p>Tổng: <strong th:text="${totalPrice}"></strong> VNĐ</p>
+</body>
+</html>

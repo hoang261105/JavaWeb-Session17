@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h2>Danh sách sách</h2>
+    <table border="1" width="60%">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Tác giả</th>
+                <th>Tiêu đề sách</th>
+                <th>Giá</th>
+                <th>Mã sách</th>
+                <th>Hình ảnh</th>
+                <th>Chức năng</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="book, loop : ${bookList}" style="text-align: center">
+                <td th:text="${loop.index + 1}"></td>
+                <td th:text="${book.author}"></td>
+                <td th:text="${book.bookTitle}"></td>
+                <td th:text="${book.price}"></td>
+                <td th:text="${book.ISBN}"></td>
+                <td>
+                    <img th:src="${book.image}" alt="">
+                </td>
+                <td>
+                    <form th:action="@{'delete/' + ${book.id}}" method="post">
+                        <button type="submit">Xóa</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

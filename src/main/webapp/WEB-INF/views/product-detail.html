@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+          rel="stylesheet">
+</head>
+<body>
+    <h2 class="font-semibold">Chi tiết sản phẩm</h2>
+
+    <img th:src="${product.image}" alt="" width="100" height="100">
+    <br>
+    <h2 class="text-lg font-semibold mb-2" th:text="${product.productName}"></h2>
+    <p class="text-gray-700 text-sm">Giá: <strong th:text="${product.price}"></strong> VNĐ</p>
+    <p class="text-gray-600 text-sm mb-1">Mô tả: <strong th:text="${product.description}"></strong></p>
+    <p class="text-gray-600 text-sm mb-4">Số lượng: <strong th:text="${product.stock}"></strong></p>
+
+    <form action="/add-to-cart" method="post">
+        <input type="hidden" name="productId" th:field="*{product.productId}">
+        <button type="submit" class="inline-block mt-auto bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-600 text-center"
+        onclick="return alert('Thêm sản phẩm vào giỏ thành công!')">Them vào giỏ hàng</button>
+    </form>
+</body>
+</html>

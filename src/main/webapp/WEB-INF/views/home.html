@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+          rel="stylesheet">
+</head>
+<body>
+<p>Đây là trang home. Xin chào <strong th:text="${customer.username}"></strong></p>
+
+<a th:href="@{'carts/' + ${customer.id}}"
+   class="inline-block mt-auto bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-600 text-center">
+     Xem giỏ hàng
+</a>
+
+<a th:href="@{'profile/' + ${customer.id}}"
+   class="inline-block mt-auto bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-600 text-center">
+    Ho sơ
+</a>
+
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-center mb-8">Danh sách sản phẩm</h1>
+
+    <!-- Grid sản phẩm: 5 cột -->
+    <div class="grid xl:grid-cols-5 gap-6">
+        <div class="bg-white shadow-md rounded-lg overflow-hidden flex flex-col" th:each="product : ${productList}">
+            <img class="w-full h-80 object-cover" th:src="${product.image}" th:alt="${product.productName}">
+
+            <div class="p-4 flex flex-col justify-between flex-grow">
+                <div>
+                    <h2 class="text-lg font-semibold mb-2" th:text="${product.productName}"></h2>
+                    <p class="text-gray-700 text-sm">Giá: <strong th:text="${product.price}"></strong> VNĐ</p>
+                    <p class="text-gray-600 text-sm mb-1">Mô tả: <strong th:text="${product.description}"></strong></p>
+                    <p class="text-gray-600 text-sm mb-4">Số lượng: <strong th:text="${product.stock}"></strong></p>
+                </div>
+
+                <a th:href="@{'product-detail/' + ${product.productId}}"
+                   class="inline-block mt-auto bg-blue-500 text-white text-sm px-3 py-1 rounded hover:bg-blue-600 text-center">
+                    Xem chi tiết
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Phân trang -->
+    <div class="mt-10 flex justify-center">
+        <nav class="flex space-x-1" aria-label="Pagination">
+
+            <a th:if="${currentPage > 1}"
+               th:href="@{/home(page=${currentPage - 1})}"
+               class="px-4 py-2 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 rounded-l-md">
+                Trước
+            </a>
+
+
+            <a th:each="i : ${#numbers.sequence(1, totalPages)}"
+               th:href="@{/home(page=${i})}"
+               th:text="${i}"
+               th:classappend="${i == currentPage} ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'"
+               class="px-4 py-2 border border-gray-300">
+            </a>
+
+
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{/home(page=${currentPage + 1})}"
+               class="px-4 py-2 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 rounded-r-md">
+                Tiếp
+            </a>
+        </nav>
+    </div>
+
+</div>
+</body>
+</html>

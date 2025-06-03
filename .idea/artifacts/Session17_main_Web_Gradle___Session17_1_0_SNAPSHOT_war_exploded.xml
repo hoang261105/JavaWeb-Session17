@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="Session17.main:Web Gradle : Session17-1.0-SNAPSHOT.war exploded">
+    <output-path>$PROJECT_DIR$/out/artifacts/Session17_main_Web_Gradle___Session17_1_0_SNAPSHOT_war_exploded</output-path>
+    <root id="root">
+      <element id="javaee-facet-resources" facet="Session17.main/web/Web Gradle : Session17-1.0-SNAPSHOT.war" />
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="Session17.main" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>
