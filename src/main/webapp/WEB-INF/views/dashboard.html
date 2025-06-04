@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+          rel="stylesheet">
+</head>
+<body>
+    <div th:fragment="content">
+        <h1 class="text-2xl font-bold mb-6">Trang tổng quan</h1>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+            <!-- Tổng số người dùng -->
+            <div class="bg-white shadow rounded-lg p-5">
+                <h2 class="text-gray-600 text-sm">Người dùng</h2>
+                <p class="text-3xl font-bold text-gray-800" th:text="${totalUsers}">0</p>
+            </div>
+
+            <!-- Tổng số sản phẩm -->
+            <div class="bg-white shadow rounded-lg p-5">
+                <h2 class="text-gray-600 text-sm">Sản phẩm</h2>
+                <p class="text-3xl font-bold text-gray-800" th:text="${totalProducts}">0</p>
+            </div>
+
+            <!-- Tổng số đơn hàng -->
+            <div class="bg-white shadow rounded-lg p-5">
+                <h2 class="text-gray-600 text-sm">Đơn hàng</h2>
+                <p class="text-3xl font-bold text-gray-800" th:text="${totalOrders}">0</p>
+            </div>
+
+            <!-- Doanh thu tháng này -->
+<!--            <div class="bg-white shadow rounded-lg p-5">-->
+<!--                <h2 class="text-gray-600 text-sm">Doanh thu tháng</h2>-->
+<!--                <p class="text-3xl font-bold text-green-600" th:text="${monthlyRevenue} + '₫'">0₫</p>-->
+<!--            </div>-->
+        </div>
+    </div>
+</body>
+</html>

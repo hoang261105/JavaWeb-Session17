@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h2>Thêm mới sản phẩm</h2>
+
+<form action="/update-product" method="post" th:object="${product}" enctype="multipart/form-data">
+    <div>
+        <label for="productName">Tên sản phẩm</label>
+        <input type="hidden" th:field="*{productId}">
+        <input type="text" id="productName" placeholder="Nhâp tên sản phẩm" th:field="*{productName}">
+        <br>
+        <p th:if="${#fields.hasErrors('productName')}" th:errors="*{productName}" style="color: red"></p>
+    </div>
+    <div>
+        <label for="description">Mo tả</label>
+        <input type="text" id="description" placeholder="Nhập mô tả" th:field="*{description}">
+        <br>
+        <p th:if="${#fields.hasErrors('description')}" th:errors="*{description}" style="color: red"></p>
+    </div>
+    <div>
+        <label for="price">Giá</label>
+        <input type="number" id="price" min="1" th:field="*{price}">
+    </div>
+    <div>
+        <label for="stock">So lượng</label>
+        <input type="number" id="stock" min="1" th:field="*{stock}">
+    </div>
+    <div>
+        <label for="file">Hình ảnh</label>
+        <input type="file" id="file" th:field="*{file}">
+        <br>
+        <img th:src="${product.image}" alt="" width="100" height="100">
+        <br>
+        <p th:if="${#fields.hasErrors('file')}" th:errors="*{file}" style="color: red"></p>
+    </div>
+    <br>
+    <button type="submit">Cập nhật</button>
+</form>
+</body>
+</html>

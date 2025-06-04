@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css"
+          rel="stylesheet">
+</head>
+<body>
+<div class="w-full h-screen bg-gray-800 flex">
+    <div class="w-64 bg-gray-800 text-white flex flex-col">
+        <div class="p-4 text-2xl font-bold border-b border-gray-700">
+            Quản trị
+        </div>
+        <nav class="flex-1 p-4 space-y-2">
+            <a href="dashboard" class="block px-4 py-2 rounded hover:bg-gray-700 transition ">Trang chủ</a>
+            <a href="adminProduct" class="block px-4 py-2 rounded hover:bg-gray-700 transition">📦 Quản lý sản phẩm</a>
+            <a href="adminUser" class="block px-4 py-2 rounded hover:bg-gray-700 transition">👤 Quản lý người dùng</a>
+            <a href="adminOrder" class="block px-4 py-2 rounded hover:bg-gray-700 transition">🧾 Quản lý đơn hàng</a>
+        </nav>
+    </div>
+
+    <div class="flex-1 p-6 bg-gray-100 overflow-y-auto">
+        <div th:insert="~{${viewName} :: ${fragmentName}}"></div>
+    </div>
+</div>
+</body>
+</html>

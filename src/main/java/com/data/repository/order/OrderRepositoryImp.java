@@ -54,4 +54,17 @@ public class OrderRepositoryImp implements OrderRepository {
         query.setParameter("customerId", customerId);
         return query.getResultList();
     }
+
+    @Override
+    public long count() {
+        Session session = sessionFactory.openSession();
+
+        try {
+            Query<Long> query = session.createQuery("select count(o) from Order o", Long.class);
+            return query.getSingleResult();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 }

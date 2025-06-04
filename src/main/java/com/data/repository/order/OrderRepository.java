@@ -8,4 +8,6 @@ public interface OrderRepository {
     void save(Order order, int customerId);
 
     List<Order> findByCustomerId(int customerId);
+
+    long count();
 }

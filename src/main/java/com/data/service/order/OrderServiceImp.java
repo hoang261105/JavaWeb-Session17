@@ -21,4 +21,9 @@ public class OrderServiceImp implements OrderService {
     public List<Order> findByCustomerId(int customerId) {
         return orderRepository.findByCustomerId(customerId);
     }
+
+    @Override
+    public long count() {
+        return orderRepository.count();
+    }
 }

@@ -1,12 +1,15 @@
 package com.data.repository.customer;
 
 import com.data.model.Customer;
+import com.data.model.Status;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class CustomerRepositoryImp implements CustomerRepository {
@@ -68,6 +71,62 @@ public class CustomerRepositoryImp implements CustomerRepository {
         try {
             transaction = session.beginTransaction();
             session.update(customer);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public long count() {
+        Session session = sessionFactory.openSession();
+
+        Query<Long> query = session.createQuery("select count(*) from Customer", Long.class);
+
+        return query.getSingleResult();
+    }
+
+    @Override
+    public List<Customer> getAll(int page, int size) {
+        Session session = sessionFactory.openSession();
+
+        Query<Customer> query = session.createQuery("from Customer", Customer.class);
+        int firstResult = (page - 1) * size;
+        query.setFirstResult(firstResult);
+        query.setMaxResults(size);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<Customer> searchUserPaginate(String username, int page, int size) {
+        Session session = sessionFactory.openSession();
+
+        Query<Customer> query = session.createQuery("from Customer where username like concat('%', :username, '%') ", Customer.class);
+
+        query.setParameter("username", username);
+        int firstResult = (page - 1) * size;
+        query.setFirstResult(firstResult);
+        query.setMaxResults(size);
+        return query.getResultList();
+    }
+
+    @Override
+    public void updateStatus(int id) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+
+            Customer customer = session.get(Customer.class, id);
+
+            if (customer != null) {
+                Status currentStatus = customer.getStatus();
+                customer.setStatus(currentStatus == Status.ACTIVE ? Status.BLOCKED : Status.ACTIVE);
+
+                session.update(customer);
+            }
+
             transaction.commit();
         } catch (Exception e) {
             e.printStackTrace();

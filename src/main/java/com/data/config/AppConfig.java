@@ -1,5 +1,7 @@
 package com.data.config;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
@@ -34,6 +36,10 @@ import java.util.Properties;
 @EnableTransactionManagement
 
 public class AppConfig implements WebMvcConfigurer , ApplicationContextAware {
+    private static final String HOST_NAME = "dtc7mun2h";
+    private static final String API_KEY = "367326886449662";
+    private static final String API_SECRET = "drFhZL10Jmgt1ACgD6qnFvSLRYw";
+
     ApplicationContext applicationContext;
 
     @Override
@@ -128,5 +134,23 @@ public class AppConfig implements WebMvcConfigurer , ApplicationContextAware {
         resolver.setTemplateEngine(templateEngine());
         resolver.setCharacterEncoding("UTF-8");
         return resolver;
+    }
+
+    @Bean(name = "multipartResolver")
+    public CommonsMultipartResolver multipartResolver() {
+        CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+        multipartResolver.setMaxUploadSize(10485760); // 10MB
+        return multipartResolver;
+    }
+
+
+    @Bean
+    public Cloudinary cloudinary() {
+        return new Cloudinary(ObjectUtils.asMap(
+                "cloud_name", HOST_NAME,
+                "api_key", API_KEY,
+                "api_secret", API_SECRET,
+                "secure", true
+        ));
     }
 }

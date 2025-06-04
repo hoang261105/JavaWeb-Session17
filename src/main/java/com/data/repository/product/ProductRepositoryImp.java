@@ -3,6 +3,7 @@ package com.data.repository.product;
 import com.data.model.Product;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -56,6 +57,65 @@ public class ProductRepositoryImp implements ProductRepository {
             session.close();
         }
         return null;
+    }
+
+    @Override
+    public void save(Product product) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            session.save(product);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void update(Product product) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            session.update(product);
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void delete(int productId) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+
+            Query query = session.createQuery("delete from Product p where p.productId = :productId");
+
+            query.setParameter("productId", productId);
+            query.executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public List<Product> searchProductPaginate(String productName, int pageNumber, int size) {
+        Session session = sessionFactory.openSession();
+
+        Query<Product> query = session.createQuery("from Product p where p.productName like concat('%', :productName, '%') ", Product.class);
+
+        query.setParameter("productName", productName);
+        int firstResult = (pageNumber - 1) * size;
+        query.setFirstResult(firstResult);
+        query.setMaxResults(size);
+        return query.getResultList();
     }
 
 }

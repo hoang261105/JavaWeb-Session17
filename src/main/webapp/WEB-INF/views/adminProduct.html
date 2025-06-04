@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="content">
+    <h1 class="text-2xl font-bold mb-4">📦 Danh sách sản phẩm</h1>
+
+    <div class="flex justify-between items-center mb-4 gap-4">
+        <!-- Form lọc -->
+        <form method="get" action="search" class="flex items-center gap-2 w-1/2">
+            <input type="text" name="productName" placeholder="Tìm kiếm sản phẩm..."
+                   class="flex-1 px-4 py-2 border rounded" />
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                Lọc
+            </button>
+        </form>
+
+        <!-- Nút thêm mới -->
+        <div class="w-1/2 flex justify-end">
+            <a href="add-product" class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+                Thêm mới sản phẩm
+            </a>
+        </div>
+    </div>
+
+    <!-- Bảng sản phẩm -->
+    <div class="overflow-x-auto">
+        <table class="w-full bg-white shadow-md rounded">
+            <thead class="bg-gray-200">
+            <tr>
+                <th class="py-2 px-4 border">STT</th>
+                <th class="py-2 px-4 border">Tên sản phẩm</th>
+                <th class="py-2 px-4 border">Mô tả</th>
+                <th class="py-2 px-4 border">Giá</th>
+                <th class="py-2 px-4 border">Tồn kho</th>
+                <th class="py-2 px-4 border">Hình ảnh</th>
+                <th class="py-2 px-4 border">Hành động</th>
+            </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${#lists.isEmpty(products)}" class="hover:bg-gray-100 text-center">
+                    <td class="py-2 px-4 border" th:text="${message}" colspan="7"></td>
+                </tr>
+
+                <tr th:each="product, loop : ${products}" class="hover:bg-gray-100 text-center">
+                    <td class="py-2 px-4 border" th:text="${(currentPage - 1) * pageSize + loop.index + 1}">1</td>
+                    <td class="py-2 px-4 border" th:text="${product.productName}">Tên</td>
+                    <td class="py-2 px-4 border" th:text="${product.description}">Mô tả</td>
+                    <td class="py-2 px-4 border" th:text="${product.price}">0.00</td>
+                    <td class="py-2 px-4 border" th:text="${product.stock}">10</td>
+                    <td class="py-2 px-4 border">
+                        <img th:src="${product.image}" alt="image" class="w-16 h-16 object-cover rounded">
+                    </td>
+                    <td class="py-2 px-4 border">
+                        <div class="flex justify-center gap-2">
+                            <!-- Nút Sửa -->
+                            <form th:action="@{'/editProduct/' + ${product.productId}}" method="get">
+                                <button type="submit"
+                                        class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600">
+                                    Sửa
+                                </button>
+                            </form>
+
+                            <!-- Nút Xóa -->
+                            <form th:action="@{'/deleteProduct/' + ${product.productId}}" method="post"
+                                  onsubmit="return confirm('Bạn có chắc chắn muốn xóa sản phẩm này?');">
+                                <button type="submit"
+                                        class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">
+                                    Xóa
+                                </button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+    <!-- Phân trang -->
+    <div class="mt-10 flex justify-center">
+        <nav class="flex space-x-1" aria-label="Pagination">
+
+            <a th:if="${currentPage > 1}"
+               th:href="@{/search(page=${currentPage - 1}, productName=${productName})}"
+               class="px-4 py-2 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 rounded-l-md">
+                Trước
+            </a>
+
+
+            <a th:each="i : ${#numbers.sequence(1, totalPages)}"
+               th:href="@{/search(page=${i}, productName=${productName})}"
+               th:text="${i}"
+               th:classappend="${i == currentPage} ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 hover:bg-gray-100'"
+               class="px-4 py-2 border border-gray-300">
+            </a>
+
+
+            <a th:if="${currentPage < totalPages}"
+               th:href="@{/search(page=${currentPage + 1}, productName=${productName})}"
+               class="px-4 py-2 border border-gray-300 bg-white text-gray-700 hover:bg-gray-100 rounded-r-md">
+                Tiếp
+            </a>
+        </nav>
+    </div>
+</div>
+</body>
+
+</html>
